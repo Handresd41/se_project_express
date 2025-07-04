@@ -5,20 +5,20 @@ const {
   getItems,
   updateItem,
   deleteItem,
-} = require("../controllers/clothingItem");
+} = require("../controllers/clothingItemcontrollers");
 
-//CRUD
+// CRUD
 
-//Create
+// Create
 router.post("/", createItem);
 
-//READ
+// READ
 router.get("/", getItems);
 
-//Update
+// Update
 router.put("/:itemId", updateItem);
 
-//Delete
+// Delete
 router.delete("/:itemId", deleteItem);
 
 module.exports = router;

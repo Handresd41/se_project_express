@@ -1,14 +1,11 @@
 const User = require("../models/user");
-const GOOD_REQUEST_STATUS_CODE =
-  require("../utils/errors").GOOD_REQUEST_STATUS_CODE;
-const CREATED_STATUS_CODE = require("../utils/errors").CREATED_STATUS_CODE;
-const BAD_REQUEST_STATUS_CODE =
-  require("../utils/errors").BAD_REQUEST_STATUS_CODE;
-const NOT_FOUND_STATUS_CODE = require("../utils/errors").NOT_FOUND_STATUS_CODE;
-const INTERNAL_SERVER_ERROR_STATUS_CODE =
-  require("../utils/errors").INTERNAL_SERVER_ERROR_STATUS_CODE;
+const {GOOD_REQUEST_STATUS_CODE} = require("../utils/errors");
+const {CREATED_STATUS_CODE} = require("../utils/errors");
+const {BAD_REQUEST_STATUS_CODE} = require("../utils/errors");
+const {NOT_FOUND_STATUS_CODE} = require("../utils/errors");
+const {INTERNAL_SERVER_ERROR_STATUS_CODE} = require("../utils/errors");
 
-//GET /users
+// GET /users
 
 const getUsers = (req, res) => {
   User.find({})
@@ -20,7 +17,7 @@ const getUsers = (req, res) => {
         .send({ message: err.message });
     });
 };
-//POST /users
+// POST /users
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
 
@@ -50,7 +47,7 @@ const getUser = (req, res) => {
         return res
           .status(NOT_FOUND_STATUS_CODE)
           .send({ message: "User not found" });
-      } else if (err.name === "CastError") {
+      } if (err.name === "CastError") {
         return res
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: "Invalid user ID" });

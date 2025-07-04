@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validate = require("validator");
+const validator = require("validator");
 
 const clothingItemSchema = new mongoose.Schema({
   name: {
@@ -14,10 +14,10 @@ const clothingItemSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => validate.isURL(v),
+      validator: (v) => validator.isURL(v),
       message: "Link is not Valid",
     },
   },
 });
 
-module.exports = mongoose.model("item", clothingItemSchema);
+module.exports = mongoose.model("ClothingItem", clothingItemSchema);
