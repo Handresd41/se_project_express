@@ -5,14 +5,10 @@ const { NOT_FOUND_STATUS_CODE } = require("../utils/errors");
 const { INTERNAL_SERVER_ERROR_STATUS_CODE } = require("../utils/errors");
 
 const createItem = (req, res) => {
-  console.log(req);
-  console.log(req.body);
-
   const { name, weather, ImageURL } = req.body;
 
   ClothingItem.create({ name, weather, ImageURL })
     .then((item) => {
-      console.log(item);
       res.send({ data: item });
     })
     .catch((e) => {
@@ -53,7 +49,7 @@ const likeItem = (req, res) => {
       }
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from likeItem" });
+        .send({ message: "Unable to like the item" });
     });
 };
 
@@ -82,7 +78,7 @@ const unlikeItem = (req, res) => {
       }
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from unlikeItem" });
+        .send({ message: "Unable to unlike the item" });
     });
 };
 
@@ -92,14 +88,13 @@ const getItems = (req, res) => {
     .catch(() => {
       res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from getItems" });
+        .send({ message: "Unable to get the item" });
     });
 };
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
 
-  console.log(itemId);
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
     .then((item) => res.status(GOOD_REQUEST_STATUS_CODE).send(item))
@@ -116,7 +111,7 @@ const deleteItem = (req, res) => {
       }
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from deleteitem" });
+        .send({ message: "Unable to delete the item" });
     });
 };
 
