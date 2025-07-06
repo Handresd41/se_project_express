@@ -21,7 +21,7 @@ const createItem = (req, res) => {
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: "Invalid data" });
       }
-      res
+      return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
         .send({ message: "Error creating item" });
     });
@@ -47,13 +47,13 @@ const likeItem = (req, res) => {
           .send({ message: "Item not found" });
       }
       if (e.name === "CastError") {
-        res
+        return res
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: "Invalid item ID" });
-      } else
-        res
-          .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-          .send({ message: "Error from likeItem" });
+      }
+      return res
+        .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
+        .send({ message: "Error from likeItem" });
     });
 };
 
@@ -76,20 +76,20 @@ const unlikeItem = (req, res) => {
           .send({ message: "Item not found" });
       }
       if (e.name === "CastError") {
-        res
+        return res
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: "Invalid item ID" });
-      } else
-        res
-          .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-          .send({ message: "Error from unlikeItem" });
+      }
+      return res
+        .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
+        .send({ message: "Error from unlikeItem" });
     });
 };
 
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(GOOD_REQUEST_STATUS_CODE).send(items))
-    .catch((e) => {
+    .catch(() => {
       res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
         .send({ message: "Error from getItems" });
@@ -114,7 +114,7 @@ const deleteItem = (req, res) => {
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: "Invalid item ID" });
       }
-      res
+      return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
         .send({ message: "Error from deleteitem" });
     });

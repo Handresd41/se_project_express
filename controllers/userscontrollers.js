@@ -32,7 +32,7 @@ const createUser = (req, res) => {
       }
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: err.message });
+        .send({ message: "Invalid data" });
     });
 };
 
@@ -55,7 +55,7 @@ const getUser = (req, res) => {
       }
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: err.message });
+        .send({ message: "Invalid data" });
     });
 };
 
