@@ -5,9 +5,9 @@ const { NOT_FOUND_STATUS_CODE } = require("../utils/errors");
 const { INTERNAL_SERVER_ERROR_STATUS_CODE } = require("../utils/errors");
 
 const createItem = (req, res) => {
-  const { name, weather, ImageURL } = req.body;
+  const { name, weather, ImageUrl } = req.body;
 
-  ClothingItem.create({ name, weather, ImageURL })
+  ClothingItem.create({ name, weather, ImageUrl, owner: req.user._id })
     .then((item) => {
       res.send({ data: item });
     })
