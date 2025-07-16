@@ -1,7 +1,10 @@
-export const GOOD_REQUEST_STATUS_CODE = 200;
-export const CREATED_STATUS_CODE = 201;
+module.exports.GOOD_REQUEST_STATUS_CODE = 200;
+module.exports.CREATED_STATUS_CODE = 201;
 
-export const BAD_REQUEST_STATUS_CODE = 400;
-export const NOT_FOUND_STATUS_CODE = 404;
+module.exports.BAD_REQUEST_STATUS_CODE = 400;
+module.exports.UNAUTHORIZED_STATUS_CODE = 401;
+module.exports.FORBIDDEN_STATUS_CODE = 403;
+module.exports.NOT_FOUND_STATUS_CODE = 404;
+module.exports.CONFLICT_STATUS_CODE = 409;
 
-export const INTERNAL_SERVER_ERROR_STATUS_CODE = 500;
+module.exports.INTERNAL_SERVER_ERROR_STATUS_CODE = 500;
