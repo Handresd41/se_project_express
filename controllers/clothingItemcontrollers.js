@@ -1,5 +1,8 @@
 const ClothingItem = require("../models/clothingItem");
-const { GOOD_REQUEST_STATUS_CODE } = require("../utils/errors");
+const {
+  GOOD_REQUEST_STATUS_CODE,
+  FORBIDDEN_STATUS_CODE,
+} = require("../utils/errors");
 const { BAD_REQUEST_STATUS_CODE } = require("../utils/errors");
 const { NOT_FOUND_STATUS_CODE } = require("../utils/errors");
 const { INTERNAL_SERVER_ERROR_STATUS_CODE } = require("../utils/errors");
@@ -95,11 +98,25 @@ const getItems = (req, res) => {
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
 
-  ClothingItem.findByIdAndDelete(itemId)
-    .orFail()
-    .then((item) => res.status(GOOD_REQUEST_STATUS_CODE).send(item))
+  ClothingItem.findById(itemId)
+    .orFail(() => {
+      throw new Error("Item not found");
+    })
+    .then((item) => {
+      if (item.owner.toString() !== req.user._id.toString()) {
+        return res
+          .status(NOT_FOUND_STATUS_CODE)
+          .send({ message: "You do not have permission to delete this item" });
+      }
+      return ClothingItem.deleteOne({ _id: itemId });
+    })
+    .then(() => {
+      res
+        .status(GOOD_REQUEST_STATUS_CODE)
+        .send({ message: "Item deleted successfully" });
+    })
     .catch((e) => {
-      if (e.name === "DocumentNotFoundError") {
+      if (e.message === "Item not found") {
         return res
           .status(NOT_FOUND_STATUS_CODE)
           .send({ message: "Item not found" });
@@ -110,7 +127,7 @@ const deleteItem = (req, res) => {
           .send({ message: "Invalid item ID" });
       }
       return res
-        .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
+        .status(FORBIDDEN_STATUS_CODE)
         .send({ message: "Unable to delete the item" });
     });
 };

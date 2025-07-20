@@ -9,21 +9,6 @@ const { NOT_FOUND_STATUS_CODE } = require("../utils/errors");
 const { INTERNAL_SERVER_ERROR_STATUS_CODE } = require("../utils/errors");
 const { CONFLICT_STATUS_CODE } = require("../utils/errors");
 
-// GET /users
-
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => {
-      res.status(GOOD_REQUEST_STATUS_CODE).send({ data: users });
-    })
-    .catch((err) => {
-      console.error(err);
-      return res
-        .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "An error has occurred on the server" });
-    });
-};
-
 const login = (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -31,17 +16,17 @@ const login = (req, res) => {
       .status(BAD_REQUEST_STATUS_CODE)
       .send({ message: "Email and password are required" });
   }
-  User.findUserByCredentials(email, password)
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
       return res
+        .token(token)
         .cookie("jwt", token, {
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
           httpOnly: true,
-          sameSite: "None",
-          secure: true,
+          secure: process.env.NODE_ENV === "production",
         })
         .status(GOOD_REQUEST_STATUS_CODE)
         .send({ message: "Login successful" });
@@ -57,9 +42,6 @@ const login = (req, res) => {
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
         .send({ message: "An error has occurred on the server" });
     });
-  return res
-    .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-    .send({ message: "An error has occurred on the server" });
 };
 
 // POST /users
@@ -68,12 +50,14 @@ const createUser = (req, res) => {
 
   User.create({ name, avatar, email, password })
     .then((user) => {
-      res.status(CREATED_STATUS_CODE).send({
+      const userObj = user.toObject();
+      delete userObj.password; // Remove password from the response
+      return res.status(CREATED_STATUS_CODE).send({
         data: {
-          _id: user._id,
-          name: user.name,
-          avatar: user.avatar,
-          email: user.email,
+          _id: userObj._id,
+          name: userObj.name,
+          avatar: userObj.avatar,
+          email: userObj.email,
         },
       });
     })
@@ -129,4 +113,28 @@ const updateCurrentUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, createUser, updateCurrentUser, login };
+const getUser = (req, res) => {
+  const { _id } = req.user;
+  User.findById(_id)
+    .orFail(() => {
+      res.status(NOT_FOUND_STATUS_CODE).send({ message: "User not found" });
+    })
+    .then((user) => {
+      res.status(GOOD_REQUEST_STATUS_CODE).send({
+        data: {
+          _id: user._id,
+          name: user.name,
+          avatar: user.avatar,
+          email: user.email,
+        },
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res
+        .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
+        .send({ message: "An error has occurred on the server" });
+    });
+};
+
+module.exports = { createUser, updateCurrentUser, login, getUser };
