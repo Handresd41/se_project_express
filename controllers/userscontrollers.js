@@ -21,15 +21,9 @@ const login = (req, res) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      return res
-        .token(token)
-        .cookie("jwt", token, {
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-        })
-        .status(GOOD_REQUEST_STATUS_CODE)
-        .send({ message: "Login successful" });
+      return res.status(GOOD_REQUEST_STATUS_CODE).send({
+        token,
+      });
     })
     .catch((err) => {
       console.error(err);

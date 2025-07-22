@@ -5,7 +5,7 @@ const {
   updateCurrentUser,
 } = require("../controllers/userscontrollers");
 
-router.get("/me", getUser);
+router.get("/", getUser);
 router.post("/", createUser);
 router.patch("/", updateCurrentUser);
 
