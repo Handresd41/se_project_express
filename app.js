@@ -25,3 +25,9 @@ app.use("/", mainRouter);
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
+
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Server will crash now");
+  }, 0);
+});
