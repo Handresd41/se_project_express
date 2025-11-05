@@ -20,3 +20,7 @@ In the Back-end of this server creates, add, update, delete, like and dislike wi
 ### Frontend Link
 
 ("https://github.com/Handresd41/se_project_react.git")
+
+### Video Link
+
+("https://www.loom.com/share/658d0028cf0d4cebba0d358b0bd4c896")
