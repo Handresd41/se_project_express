@@ -9,6 +9,12 @@ const app = express();
 
 const { PORT = 3001 } = process.env;
 
+const errorHandler = require("./middlewares/error-handler");
+
+const { errors } = require("celebrate");
+
+const { requestLogger, errorLogger } = require("./middlewares/logger");
+
 mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
   .then(() => {
@@ -21,6 +27,23 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", mainRouter);
+
+app.use(errorHandler);
+
+app.use(routes);
+
+app.use(errors());
+
+app.use(errorHandler);
+
+app.use(requestLogger);
+
+app.use(routes);
+
+app.use(errorLogger);
+
+const { errors } = require("celebrate");
+app.use(errors());
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
