@@ -19,7 +19,7 @@ const auth = (req, res, next) => {
   try {
     const payload = jwt.verify(token, JWT_SECRET);
     req.user = payload;
-    return next();
+    next();
   } catch (err) {
     if (err.name === "JsonWebTokenError") {
       next(new UnauthorizedError("Invalid token"));

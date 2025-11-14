@@ -21,9 +21,9 @@ const createItem = (req, res, next) => {
     .catch((e) => {
       if (e.name === "ValidationError" || e.name === "CastError") {
         next(new BadRequestError("Invalid data provided for creating item"));
-      } else {
-        next(e);
+        return;
       }
+      next(e);
     });
 };
 

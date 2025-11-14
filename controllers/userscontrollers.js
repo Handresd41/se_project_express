@@ -18,12 +18,12 @@ const login = (req, res, next) => {
     next(new BadRequestError("Email and password are required"));
     return;
   }
-  return User.findUserByCredentials(email, password)
+  User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      return res.status(GOOD_REQUEST_STATUS_CODE).send({ token });
+      res.status(GOOD_REQUEST_STATUS_CODE).send({ token });
     })
     .catch((err) => {
       if (err && err.message === "Invalid email or password") {
