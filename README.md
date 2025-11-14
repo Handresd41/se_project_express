@@ -27,4 +27,12 @@ In the Back-end of this server creates, add, update, delete, like and dislike wi
 
 ### SSH
 
-(https://ssh.cloud.google.com/v2/ssh/projects/gothic-ember-471802-s5/zones/us-east1-b/instances/wtwr?authuser=0&hl=en_US&projectNumber=153762712114&useAdminProxy=true&pageViewId=6920DCC5-693E-4BD6-8A46-2E129E7E1222)
+("https://ssh.cloud.google.com/v2/ssh/projects/gothic-ember-471802-s5/zones/us-east1-b/instances/wtwr?authuser=0&hl=en_US&projectNumber=153762712114&useAdminProxy=true&pageViewId=6920DCC5-693E-4BD6-8A46-2E129E7E1222")
+
+## Frontend Domain
+
+("https://gcp-demon.jumpingcrab.com/")
+
+## Backend Domain
+
+("https://api.gcp-demon.jumpingcrab.com/")

@@ -22,19 +22,17 @@ mongoose
   })
   .catch(console.error);
 
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Server will crash now");
+  }, 0);
+});
+
 app.use(cors());
 
 app.use(express.json());
 
 app.use("/", mainRouter);
-
-app.use(errorHandler);
-
-app.use(routes);
-
-app.use(errors());
-
-app.use(errorHandler);
 
 app.use(requestLogger);
 
@@ -42,15 +40,13 @@ app.use(routes);
 
 app.use(errorLogger);
 
+app.use(errors());
+
+app.use(errorHandler);
+
 const { errors } = require("celebrate");
 app.use(errors());
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
-});
-
-app.get("/crash-test", () => {
-  setTimeout(() => {
-    throw new Error("Server will crash now");
-  }, 0);
 });

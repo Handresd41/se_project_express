@@ -7,61 +7,15 @@ const CONFLICT_STATUS_CODE = 409;
 const GOOD_REQUEST_STATUS_CODE = 200;
 const CREATED_STATUS_CODE = 201;
 
-class BadRequestError extends Error {
-  constructor(message = "Bad Request") {
-    super(message);
-    this.statusCode = BAD_REQUEST_STATUS_CODE;
-    this.name = "BadRequestError";
-  }
-}
+const BadRequestError = require("./errors/BadRequestError");
+const UnauthorizedError = require("./errors/UnauthorizedError");
+const ForbiddenError = require("./errors/ForbiddenError");
+const NotFoundError = require("./errors/NotFoundError");
+const ConflictError = require("./errors/ConflictError");
 
-class UnauthorizedError extends Error {
-  constructor(message = "Unauthorized") {
-    super(message);
-    this.statusCode = UNAUTHORIZED_STATUS_CODE;
-    this.name = "UnauthorizedError";
-  }
-}
-
-class ForbiddenError extends Error {
-  constructor(message = "Forbidden") {
-    super(message);
-    this.statusCode = FORBIDDEN_STATUS_CODE;
-    this.name = "ForbiddenError";
-  }
-}
-
-class NotFoundError extends Error {
-  constructor(message = "Not Found") {
-    super(message);
-    this.statusCode = NOT_FOUND_STATUS_CODE;
-    this.name = "NotFoundError";
-  }
-}
-
-class ConflictError extends Error {
-  constructor(message = "Conflict") {
-    super(message);
-    this.statusCode = CONFLICT_STATUS_CODE;
-    this.name = "ConflictError";
-  }
-}
-
-class CreatedError extends Error {
-  constructor(message = "Created") {
-    super(message);
-    this.statusCode = CREATED_STATUS_CODE;
-    this.name = "CreatedError";
-  }
-}
-
-class GoodRequestError extends Error {
-  constructor(message = "OK") {
-    super(message);
-    this.statusCode = GOOD_REQUEST_STATUS_CODE;
-    this.name = "GoodRequestError";
-  }
-}
+// moved these classes to separate files
+const CreatedError = require("./errors/CreatedError");
+const GoodRequestError = require("./errors/GoodRequestError");
 
 module.exports = {
   INTERNAL_SERVER_ERROR_STATUS_CODE,

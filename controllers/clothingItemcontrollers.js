@@ -1,14 +1,15 @@
+import {
+  BadRequestError,
+  NotFoundError,
+  ForbiddenError,
+} from "../utils/errors";
+
 const ClothingItem = require("../models/clothingItem");
 const {
   BAD_REQUEST_STATUS_CODE,
   NOT_FOUND_STATUS_CODE,
   INTERNAL_SERVER_ERROR_STATUS_CODE,
 } = require("../utils/errors");
-import {
-  BadRequestError,
-  NotFoundError,
-  ForbiddenError,
-} from "../utils/errors";
 
 const createItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
@@ -97,7 +98,7 @@ const deleteItem = (req, res, next) => {
         next(
           new ForbiddenError("You do not have permission to delete this item")
         );
-        return Promise.reject(); // stop the chain
+        return Promise.reject();
       }
       return ClothingItem.deleteOne({ _id: itemId });
     })
@@ -105,7 +106,6 @@ const deleteItem = (req, res, next) => {
       res.status(200).send({ message: "Item deleted successfully" });
     })
     .catch((e) => {
-      // If Promise.reject() above passed without reason, ignore
       if (!e) return;
       if (e instanceof NotFoundError) {
         next(e);
