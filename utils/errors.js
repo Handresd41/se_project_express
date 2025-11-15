@@ -13,10 +13,6 @@ const ForbiddenError = require("./errors/ForbiddenError");
 const NotFoundError = require("./errors/NotFoundError");
 const ConflictError = require("./errors/ConflictError");
 
-// moved these classes to separate files
-const CreatedError = require("./errors/CreatedError");
-const GoodRequestError = require("./errors/GoodRequestError");
-
 module.exports = {
   INTERNAL_SERVER_ERROR_STATUS_CODE,
   BAD_REQUEST_STATUS_CODE,
@@ -26,8 +22,6 @@ module.exports = {
   CONFLICT_STATUS_CODE,
   GOOD_REQUEST_STATUS_CODE,
   CREATED_STATUS_CODE,
-  CreatedError,
-  GoodRequestError,
   BadRequestError,
   UnauthorizedError,
   ForbiddenError,
